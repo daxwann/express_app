@@ -10,14 +10,14 @@ exports.renderAddProductPage = (req, res, next) => {
   });
 }
 
-exports.addProduct = (req, res, next) => {
+exports.addProduct = async (req, res, next) => {
   const product = new Product(req.body.title);
-  product.save();
+  await product.save();
   res.redirect('/');
 }
 
-exports.getAllProducts = (req, res, next) => {
-  const products = Product.fetchAll();
+exports.getAllProducts = async (req, res, next) => {
+  const products = await Product.fetchAll();
   res.render('shop', {
     prods: products,
     pageTitle: 'Shop',
