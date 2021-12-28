@@ -10,7 +10,6 @@ module.exports = class Product {
   async save() {
     const products = await getProductsFromFile();
     products.push(this);
-    console.log("save products");
     const p = path.join(rootPath, "data", "products.json");
     fs.writeFile(p, JSON.stringify(products), (writeErr) => {
       console.log("write err", writeErr);
@@ -19,7 +18,6 @@ module.exports = class Product {
 
   static async fetchAll() {
     const products = await getProductsFromFile();
-    console.log("fetch products", products);
     return products;
   }
 };
