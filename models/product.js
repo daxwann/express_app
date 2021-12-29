@@ -3,8 +3,11 @@ const path = require("path");
 const rootPath = require("../util/path");
 
 module.exports = class Product {
-  constructor(title) {
-    this.title = title;
+  constructor(newProduct) {
+    this.title = newProduct.title;
+    this.imageUrl = newProduct.imageUrl;
+    this.description = newProduct.description;
+    this.price = newProduct.price;
   }
 
   async save() {
