@@ -1,4 +1,5 @@
 const fs = require("fs").promises;
+const { v4: uuid } = require("uuid");
 const path = require("path");
 const rootPath = require("../util/path");
 
@@ -11,6 +12,7 @@ module.exports = class Product {
   }
 
   async save() {
+    this.id = uuid();
     const products = await getProductsFromFile();
     products.push(this);
     const p = path.join(rootPath, "data", "products.json");
@@ -22,6 +24,14 @@ module.exports = class Product {
   static async fetchAll() {
     const products = await getProductsFromFile();
     return products;
+  }
+
+  static async findById(id) {
+    const products = await getProductsFromFile();
+
+    if (!products) return undefined;
+
+    return products.find((p) => p.id === id);
   }
 };
 

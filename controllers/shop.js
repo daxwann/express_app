@@ -38,3 +38,14 @@ exports.getOrders = (req, res, next) => {
     path: '/orders'
   })
 }
+
+exports.getProductDetail = async (req, res, next) => {
+  const productId = req.params.productId;
+  const product = await Product.findById(productId);
+
+  res.render('shop/product_detail', {
+    pageTitle: 'Detail',
+    path: '/products',
+    product
+  })
+}
