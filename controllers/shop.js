@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const Cart = require('../models/cart');
 
 exports.getAllProducts = async (_req, res, _next) => {
   const products = await Product.fetchAll();
@@ -25,6 +26,16 @@ exports.getCart = (req, res, next) => {
   })
 }
 
+exports.addToCart = async (req, res, next) => {
+  const productId = req.body.productId;
+  try {
+    await Cart.addProduct(productId);
+    res.redirect('/cart');
+  } catch(err) {
+    console.error(err);
+  }
+}
+
 exports.getCheckout = (req, res, next) => {
   res.render('shop/checkout', {
     pageTitle: 'Checkout',
@@ -44,7 +55,7 @@ exports.getProductDetail = async (req, res, next) => {
   const product = await Product.findById(productId);
 
   res.render('shop/product_detail', {
-    pageTitle: 'Detail',
+    pageTitle: product.title,
     path: '/products',
     product
   })
