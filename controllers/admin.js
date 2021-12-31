@@ -1,12 +1,21 @@
 const Product = require('../models/product');
 
 exports.renderAddProductPage = (req, res, next) => {
-  res.render('admin/add_product', {
+  res.render('admin/edit_product', {
     pageTitle: 'Add Product',
     path: '/admin/add-product',
-    formsCSS: true,
-    productCSS: true,
-    activeAddProduct: true
+    edit: false
+  });
+}
+
+exports.renderEditProductPage = async (req, res, next) => {
+  const productId = req.params.productId;
+  const product = await Product.findById(productId);
+  res.render('admin/edit_product', {
+    product: product,
+    pageTitle: 'Edit Product',
+    path: '/admin/edit-product',
+    edit: true
   });
 }
 

@@ -7,6 +7,7 @@ const productPath = path.join(rootPath, "data", "products.json");
 
 module.exports = class Product {
   constructor(newProduct) {
+    this.id = newProduct.id || uuid();
     this.title = newProduct.title;
     this.imageUrl = newProduct.imageUrl;
     this.description = newProduct.description;
@@ -14,7 +15,6 @@ module.exports = class Product {
   }
 
   async save() {
-    this.id = uuid();
     const products = await getProductsFromFile();
     products.push(this);
     fs.writeFile(productPath, JSON.stringify(products), (writeErr) => {
@@ -32,7 +32,13 @@ module.exports = class Product {
 
     if (!products) return undefined;
 
-    return products.find((p) => p.id === id);
+    const product = products.find((p) => p.id === id);
+
+    if (product) {
+      return new Product(product);
+    }
+
+    return undefined;
   }
 };
 
